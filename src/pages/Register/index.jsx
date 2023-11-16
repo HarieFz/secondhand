@@ -3,7 +3,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Banner from "../../assets/img/login.png";
 import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function Register() {
   return (
     <Row className="d-flex justify-content-center align-items-center">
       <Col
@@ -18,7 +18,16 @@ export default function Login() {
       </Col>
       <Col>
         <Form style={{ padding: "0px 100px" }}>
-          <h3 className="fw-bolder text-black mb-4">Masuk</h3>
+          <h3 className="fw-bolder text-black mb-4">Daftar</h3>
+          <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Nama Lengkap"
+              className="rounded-3"
+            />
+          </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -33,16 +42,16 @@ export default function Login() {
             <Form.Control type="email" placeholder="Masukkan password" />
           </Form.Group>
 
-          <Button className="w-100">Masuk</Button>
+          <Button className="w-100">Daftar</Button>
 
           <p className="text-center mt-5">
-            Sudah punya akun?{" "}
+            Belum punya akun?{" "}
             <Link
               style={{ color: "#7126B5" }}
               className="text-decoration-none fw-bold"
-              to="/register"
+              to="/login"
             >
-              Masuk di sini
+              Masuk si sini
             </Link>
           </p>
         </Form>
