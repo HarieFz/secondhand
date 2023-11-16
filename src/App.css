@@ -1,38 +1,47 @@
-.App {
-  text-align: center;
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #7126b5;
+  --bs-btn-border-color: #7126b5;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #4b1979;
+  --bs-btn-hover-border-color: #4b1979;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #561c8d;
+  --bs-btn-active-border-color: #561c8d;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #e2d4f0;
+  --bs-btn-disabled-border-color: #e2d4f0;
+  font-size: 14px !important;
+  margin: 0px !important;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.btn-secondary {
+  --bs-btn-color: #000;
+  --bs-btn-bg: #e2d4f0;
+  --bs-btn-border-color: #e2d4f0;
+  --bs-btn-hover-color: #000;
+  --bs-btn-hover-bg: #e2d4f0;
+  --bs-btn-hover-border-color: #e2d4f0;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #000;
+  --bs-btn-active-bg: #e2d4f0;
+  --bs-btn-active-border-color: #e2d4f0;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #000;
+  --bs-btn-disabled-bg: #e2d4f0;
+  --bs-btn-disabled-border-color: #e2d4f0;
+  font-size: 14px !important;
+  margin: 0px !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.form-label {
+  font-size: 14px !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form-control {
+  border-radius: 12px !important;
+  font-size: 14px !important;
+  padding: 12px, 16px, 12px, 16px !important;
 }
