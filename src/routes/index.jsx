@@ -1,30 +1,20 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import PrivateBuyer from "./buyer/PrivateBuyer";
-import PrivateSeller from "./seller/PrivateSeller";
-import ProtectedBuyer from "./buyer/ProtectedBuyer";
-import ProtectedSeller from "./seller/ProtectedSeller";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Layout from "../components/Layouts";
+import PrivateUser from "./user/PrivateUser";
+import ProtectedUser from "./user/ProtectedUser";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export default function SetupRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/buyer" element={<ProtectedBuyer />}>
+        <Route path="/buyer" element={<ProtectedUser />}>
           <Route path="login" element={<Login />} />
         </Route>
 
-        <Route path="/buyer" element={<PrivateBuyer />}>
-          <Route index element={<Home />} />
-        </Route>
-
-        <Route path="/seller" element={<ProtectedSeller />}>
-          <Route path="login" element={<Login />} />
-        </Route>
-
-        <Route path="/seller" element={<PrivateSeller />}>
+        <Route path="/buyer" element={<PrivateUser />}>
           <Route index element={<Home />} />
         </Route>
 

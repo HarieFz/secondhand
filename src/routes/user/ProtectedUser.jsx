@@ -1,9 +1,9 @@
 import React from "react";
-import AuthSeller from "../../utils/authSeller";
+import Auth from "../../utils/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
-export default function ProtectedSeller() {
-  if (AuthSeller.getAccessToken()) {
+export default function ProtectedUser() {
+  if (Auth.getAccessToken()) {
     return <Navigate to="/" />;
   }
 
