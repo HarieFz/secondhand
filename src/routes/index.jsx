@@ -1,4 +1,5 @@
 import React from "react";
+import HalamanProduk from "../pages/HalamanProduk";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Layout from "../components/Layouts";
@@ -22,6 +23,7 @@ export default function SetupRouter() {
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="halaman-produk" element={<HalamanProduk />} />
         </Route>
       </Routes>
     </BrowserRouter>

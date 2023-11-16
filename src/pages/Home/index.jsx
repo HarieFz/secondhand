@@ -4,8 +4,10 @@ import Watch from "../../assets/img/watch.png";
 import SearchWhite from "../../assets/icon/search-white.svg";
 import SearchBlack from "../../assets/icon/search-black.svg";
 import { Button, Card, Col, Row, ToggleButton } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [radioValue, setRadioValue] = useState("Semua");
 
   const categories = [
@@ -90,8 +92,20 @@ export default function Home() {
           <Row className="gy-4">
             {items.map((item, idx) => (
               <Col lg={2} key={idx}>
-                <Card className="p-2" style={{ cursor: "pointer" }}>
-                  <Card.Img variant="top" src={item.img} />
+                <Card
+                  className="p-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    navigate("/halaman-produk", {
+                      state: item,
+                    })
+                  }
+                >
+                  <Card.Img
+                    variant="top"
+                    src={item.img}
+                    className="img-fluid"
+                  />
                   <Card.Body className="px-0">
                     <p className="m-0 fw-bold">{item.name}</p>
                     <p

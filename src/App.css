@@ -13,6 +13,7 @@
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #e2d4f0;
   --bs-btn-disabled-border-color: #e2d4f0;
+  border-radius: 12px !important;
   font-size: 14px !important;
   margin: 0px !important;
 }
@@ -32,6 +33,7 @@
   --bs-btn-disabled-color: #000;
   --bs-btn-disabled-bg: #e2d4f0;
   --bs-btn-disabled-border-color: #e2d4f0;
+  border-radius: 12px !important;
   font-size: 14px !important;
   margin: 0px !important;
 }
@@ -43,5 +45,4 @@
 .form-control {
   border-radius: 12px !important;
   font-size: 14px !important;
-  padding: 12px, 16px, 12px, 16px !important;
 }

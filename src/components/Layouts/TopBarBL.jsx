@@ -8,7 +8,9 @@ export default function TopBarBL() {
     <>
       <Navbar expand="lg" data-bs-theme="light" className="shadow-sm mb-4">
         <Container>
-          <Navbar.Brand href="/">SecondHand</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
+            SecondHand
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Form className="d-flex">

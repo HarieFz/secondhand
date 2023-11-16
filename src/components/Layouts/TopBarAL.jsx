@@ -1,14 +1,17 @@
 import React from "react";
-import { Container, Form, Nav, Navbar } from "react-bootstrap";
-import List from "../../assets/icon/list.svg";
 import Bell from "../../assets/icon/bell.svg";
+import List from "../../assets/icon/list.svg";
 import User from "../../assets/icon/user.svg";
+import { Container, Form, Nav, Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function TopBarAL() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="/">SecondHand</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          SecondHand
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Form className="d-flex">
           <Form.Control
