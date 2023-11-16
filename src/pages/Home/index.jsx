@@ -90,7 +90,7 @@ export default function Home() {
           <Row className="gy-4">
             {items.map((item, idx) => (
               <Col lg={2} key={idx}>
-                <Card className="p-2">
+                <Card className="p-2" style={{ cursor: "pointer" }}>
                   <Card.Img variant="top" src={item.img} />
                   <Card.Body className="px-0">
                     <p className="m-0 fw-bold">{item.name}</p>

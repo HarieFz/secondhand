@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 export default function Login() {
   return (
     <Row className="d-flex justify-content-center align-items-center">
-      <Col style={{ width: "100vw", height: "100vh" }}>
+      <Col
+        style={{ width: "100vw", height: "100vh" }}
+        className="d-none d-md-block"
+      >
         <img
           src={Banner}
           alt="Banner Login"
@@ -30,9 +33,9 @@ export default function Login() {
             <Form.Control type="email" placeholder="Masukkan password" />
           </Form.Group>
 
-          <Button className="w-100 mb-5">Masuk</Button>
+          <Button className="w-100">Masuk</Button>
 
-          <p className="text-center">
+          <p className="text-center mt-5">
             Belum punya akun?{" "}
             <Link
               style={{ color: "#7126B5" }}

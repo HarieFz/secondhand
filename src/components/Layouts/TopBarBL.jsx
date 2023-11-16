@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
 import Login from "../../assets/icon/login.svg";
+import { Link } from "react-router-dom";
 
 export default function TopBarBL() {
   return (
@@ -26,7 +27,7 @@ export default function TopBarBL() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Button>
+              <Button as={Link} to="/login">
                 <img src={Login} alt="login" className="me-2" />
                 Masuk
               </Button>
