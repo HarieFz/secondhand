@@ -107,9 +107,9 @@ export default function Home() {
                     className="img-fluid"
                   />
                   <Card.Body className="px-0">
-                    <p className="m-0 fw-bold">{item.name}</p>
+                    <p className="mb-1 fw-bold">{item.name}</p>
                     <p
-                      className="m-0 fw-light text-black-50"
+                      className="fw-light text-black-50"
                       style={{ fontSize: "12px" }}
                     >
                       {item.category}

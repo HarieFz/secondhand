@@ -27,19 +27,19 @@ export default function TopBarAL() {
             SecondHand
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Cari di sini ..."
-              className="border-0 rounded-4"
-              style={{
-                backgroundColor: "#EEEEEE",
-                fontSize: "14px",
-                width: "300px",
-              }}
-            />
-          </Form>
           <Navbar.Collapse id="navbarScroll">
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Cari di sini ..."
+                className="border-0 rounded-4"
+                style={{
+                  backgroundColor: "#EEEEEE",
+                  fontSize: "14px",
+                  width: "300px",
+                }}
+              />
+            </Form>
             <Nav
               className="ms-auto my-2 my-lg-0"
               style={{ maxHeight: "100px" }}
@@ -51,7 +51,7 @@ export default function TopBarAL() {
               <Nav.Link href="#bell">
                 <img src={Bell} alt="bell" />
               </Nav.Link>
-              <Nav.Link href="#user">
+              <Nav.Link as={Link} to="/info-profile">
                 <img src={User} alt="user" />
               </Nav.Link>
               <Button variant="danger" onClick={logout}>

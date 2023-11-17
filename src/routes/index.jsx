@@ -1,6 +1,7 @@
 import React from "react";
 import HalamanProduk from "../pages/HalamanProduk";
 import Home from "../pages/Home";
+import InfoProfile from "../pages/InfoProfile";
 import Login from "../pages/Login";
 import Layout from "../components/Layouts";
 import PrivateUser from "./user/PrivateUser";
@@ -24,6 +25,7 @@ export default function SetupRouter() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="halaman-produk" element={<HalamanProduk />} />
+          <Route path="info-profile" element={<InfoProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>
