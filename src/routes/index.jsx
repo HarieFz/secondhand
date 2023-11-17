@@ -8,6 +8,7 @@ import PrivateUser from "./user/PrivateUser";
 import ProtectedUser from "./user/ProtectedUser";
 import Register from "../pages/Register";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import InfoProduk from "../pages/InfoProduk";
 
 export default function SetupRouter() {
   return (
@@ -19,13 +20,13 @@ export default function SetupRouter() {
         </Route>
 
         <Route path="/" element={<PrivateUser />}>
-          {/* <Route index element={<Home />} /> */}
+          <Route path="halaman-produk" element={<HalamanProduk />} />
+          <Route path="info-profile" element={<InfoProfile />} />
+          <Route path="info-produk" element={<InfoProduk />} />
         </Route>
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="halaman-produk" element={<HalamanProduk />} />
-          <Route path="info-profile" element={<InfoProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>

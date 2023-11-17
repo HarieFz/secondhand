@@ -4,7 +4,7 @@ import Watch from "../../assets/img/watch.png";
 import SearchWhite from "../../assets/icon/search-white.svg";
 import SearchBlack from "../../assets/icon/search-black.svg";
 import { Button, Card, Col, Row, ToggleButton } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -123,7 +123,9 @@ export default function Home() {
         </div>
 
         <div style={{ position: "fixed", bottom: "30px", right: "50%" }}>
-          <Button className="shadow">+ Jual</Button>
+          <Button className="shadow" as={Link} to="/info-produk">
+            + Jual
+          </Button>
         </div>
       </div>
     </>
