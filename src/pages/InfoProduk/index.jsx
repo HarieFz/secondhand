@@ -1,17 +1,18 @@
 import React, { useRef, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import UploadProduk from "../../assets/img/upload-produk.png";
+import { useNavigate } from "react-router-dom";
 import RemoveX from "../../assets/icon/remove-x.svg";
+import UploadProduk from "../../assets/img/upload-produk.png";
 
 export default function InfoProduk() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState([{ file: null, preview: null }]);
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(photos);
 
   const fileInput = useRef([]);
   const handleClick = (i) => {
@@ -68,7 +69,7 @@ export default function InfoProduk() {
           <Form.Label>Harga Produk</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Kota"
+            placeholder="Rp 0,00"
             className="rounded-3"
             value={price}
             onChange={onPrice}
@@ -189,6 +190,11 @@ export default function InfoProduk() {
               variant="outline-primary"
               className="w-100"
               type="submit"
+              onClick={() =>
+                navigate("/preview-produk", {
+                  state: { name, price, category, description, photos },
+                })
+              }
               disabled={isLoading}
             >
               Preview
