@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import ArrowLeft from "../../assets/icon/arrow-left.svg";
 import RemoveX from "../../assets/icon/remove-x.svg";
-import UploadProduk from "../../assets/img/upload-produk.png";
 import Swal from "sweetalert2";
+import UploadProduk from "../../assets/img/upload-produk.png";
 
 export default function InfoProduk() {
   const navigate = useNavigate();
@@ -73,8 +74,16 @@ export default function InfoProduk() {
     element.preview === "";
 
   return (
-    <div>
-      <Form style={{ padding: "0px 200px" }}>
+    <div className="d-flex gap-5" style={{ padding: "0px 200px" }}>
+      <div>
+        <img
+          src={ArrowLeft}
+          alt="<-"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
+      </div>
+      <Form className="w-100">
         <Form.Group className="mb-3">
           <Form.Label>Nama Produk</Form.Label>
           <Form.Control

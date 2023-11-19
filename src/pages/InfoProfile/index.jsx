@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import ArrowLeft from "../../assets/icon/arrow-left.svg";
 import UploadPhoto from "../../assets/img/upload-photo.png";
 
 export default function InfoProfile() {
+  const navigate = useNavigate();
   const [photo, setPhoto] = useState();
   const [previewPhoto, setPreviewPhoto] = useState();
   const [name, setName] = useState("");
@@ -33,8 +36,16 @@ export default function InfoProfile() {
   };
 
   return (
-    <div>
-      <Form style={{ padding: "0px 200px" }} onSubmit={handleSubmit}>
+    <div className="d-flex gap-5" style={{ padding: "0px 200px" }}>
+      <div>
+        <img
+          src={ArrowLeft}
+          alt="<-"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
+      </div>
+      <Form className="w-100" onSubmit={handleSubmit}>
         <div
           className="mx-auto mb-4"
           style={{ width: "96px", height: "96px" }}
