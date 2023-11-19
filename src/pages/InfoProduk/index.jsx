@@ -51,6 +51,12 @@ export default function InfoProduk() {
     setIsLoading(true);
   };
 
+  const isEmpty = (element) =>
+    element.file === null ||
+    element.file === undefined ||
+    element.preview === null ||
+    element.preview === "";
+
   return (
     <div>
       <Form style={{ padding: "0px 200px" }}>
@@ -189,13 +195,19 @@ export default function InfoProduk() {
             <Button
               variant="outline-primary"
               className="w-100"
-              type="submit"
               onClick={() =>
                 navigate("/preview-produk", {
                   state: { name, price, category, description, photos },
                 })
               }
-              disabled={isLoading}
+              disabled={
+                !name ||
+                !price ||
+                !category ||
+                !description ||
+                photos.some(isEmpty) ||
+                isLoading
+              }
             >
               Preview
             </Button>
@@ -204,7 +216,14 @@ export default function InfoProduk() {
             <Button
               className="w-100"
               onClick={handleSubmit}
-              disabled={isLoading}
+              disabled={
+                !name ||
+                !price ||
+                !category ||
+                !description ||
+                photos.some(isEmpty) ||
+                isLoading
+              }
             >
               {isLoading ? "Loading ..." : "Terbitkan"}
             </Button>

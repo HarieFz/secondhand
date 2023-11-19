@@ -14,7 +14,7 @@ export default function PreviewProduk() {
             {state?.photos?.map((photo, index) => (
               <Carousel.Item key={index}>
                 <img
-                  src={URL.createObjectURL(photo.file)}
+                  src={photo.file && URL.createObjectURL(photo.file)}
                   alt=""
                   width="600px"
                   height="436px"
