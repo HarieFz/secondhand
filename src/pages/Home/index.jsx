@@ -109,12 +109,12 @@ export default function Home() {
                   <Card.Body className="px-0">
                     <p className="mb-1 fw-bold">{item.name}</p>
                     <p
-                      className="fw-light text-black-50"
+                      className="mb-2 fw-light text-black-50"
                       style={{ fontSize: "12px" }}
                     >
                       {item.category}
                     </p>
-                    <p className="m-0 fw-bold">{item.price}</p>
+                    <p className="mb-0 fw-bold">{item.price}</p>
                   </Card.Body>
                 </Card>
               </Col>

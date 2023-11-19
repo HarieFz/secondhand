@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import User from "../../assets/img/user.png";
 import { Button, Carousel, Col, Row } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function PreviewProduk() {
   const { state } = useLocation();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showCloseButton: true,
+    showConfirmButton: false,
+    color: "#FFFFFF",
+    background: "#73CA5C",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    navigate("/daftar-jual");
+    Toast.fire({
+      text: "Produk berhasil diterbitkan",
+    });
+    setIsLoading(false);
+  };
 
   return (
     <div style={{ padding: "0px 100px", marginBottom: "30px" }}>
@@ -40,7 +62,9 @@ export default function PreviewProduk() {
             <p className="m-0 fw-bold mb-3">{state.price}</p>
 
             <div className="mb-2">
-              <Button className="d-block w-100">Terbitkan</Button>
+              <Button className="d-block w-100" onClick={handleSubmit}>
+                {isLoading ? "Loading ..." : "Terbitkan"}
+              </Button>
             </div>
 
             <div>

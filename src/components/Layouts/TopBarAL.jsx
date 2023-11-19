@@ -45,7 +45,7 @@ export default function TopBarAL() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="#list">
+              <Nav.Link as={Link} to="/daftar-jual">
                 <img src={List} alt="list" />
               </Nav.Link>
               <Nav.Link href="#bell">

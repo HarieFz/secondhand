@@ -1,4 +1,5 @@
 import React from "react";
+import DaftarJual from "../pages/DaftarJual";
 import HalamanProduk from "../pages/HalamanProduk";
 import Home from "../pages/Home";
 import InfoProduk from "../pages/InfoProduk";
@@ -25,6 +26,7 @@ export default function SetupRouter() {
           <Route path="info-profile" element={<InfoProfile />} />
           <Route path="info-produk" element={<InfoProduk />} />
           <Route path="preview-produk" element={<PreviewProduk />} />
+          <Route path="daftar-jual" element={<DaftarJual />} />
         </Route>
 
         <Route path="/" element={<Layout />}>

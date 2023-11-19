@@ -38,10 +38,10 @@ export default function HalamanProduk() {
         <Col lg={4}>
           <div className="bg-body border border-2 rounded-4 p-3 mb-3">
             <p className="mb-1 fw-bold">{state.name}</p>
-            <p className="text-black-50" style={{ fontSize: "12px" }}>
+            <p className="mb-2 text-black-50" style={{ fontSize: "12px" }}>
               {state.category}
             </p>
-            <p className="m-0 fw-bold mb-3">{state.price}</p>
+            <p className="mb-0 fw-bold mb-3">{state.price}</p>
             <ModalNego state={state} />
           </div>
 

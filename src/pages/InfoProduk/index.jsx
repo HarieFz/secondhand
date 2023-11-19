@@ -3,6 +3,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import RemoveX from "../../assets/icon/remove-x.svg";
 import UploadProduk from "../../assets/img/upload-produk.png";
+import Swal from "sweetalert2";
 
 export default function InfoProduk() {
   const navigate = useNavigate();
@@ -46,9 +47,23 @@ export default function InfoProduk() {
     setPhotos(newPhoto);
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showCloseButton: true,
+    showConfirmButton: false,
+    color: "#FFFFFF",
+    background: "#73CA5C",
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    navigate("/daftar-jual");
+    Toast.fire({
+      text: "Produk berhasil diterbitkan",
+    });
+    setIsLoading(false);
   };
 
   const isEmpty = (element) =>
