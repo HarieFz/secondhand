@@ -1,7 +1,7 @@
 import React from "react";
-import Bell from "../assets/icon/bell.svg";
-import Ellipse from "../assets/icon/ellipse.svg";
-import Watch from "../assets/img/watch.png";
+import Bell from "../../../assets/icon/bell.svg";
+import Ellipse from "../../../assets/icon/ellipse.svg";
+import Watch from "../../../assets/img/watch.png";
 import { Dropdown, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

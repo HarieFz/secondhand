@@ -1,7 +1,7 @@
 import React from "react";
-import List from "../../assets/icon/list.svg";
-import NavProfile from "../NavProfile";
-import NavNotification from "../NavNotification";
+import List from "../../../assets/icon/list.svg";
+import NavProfile from "./NavProfile";
+import NavNotification from "./NavNotification";
 import { Form, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

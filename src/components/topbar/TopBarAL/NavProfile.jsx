@@ -1,7 +1,7 @@
 import React from "react";
-import Auth from "../utils/auth";
-import User from "../assets/icon/user.svg";
-import { auth } from "../config/firebase";
+import Auth from "../../../utils/auth";
+import User from "../../../assets/icon/user.svg";
+import { auth } from "../../../config/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
 import { signOut } from "firebase/auth";
