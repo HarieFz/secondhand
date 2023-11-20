@@ -1,14 +1,14 @@
 import Swal from "sweetalert2";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useCallback, useEffect, useState } from "react";
 
-const useFetchAllData = (path) => {
+const useFetchAllData = (path, order) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetch = useCallback(() => {
-    const q = query(collection(db, path));
+    const q = query(collection(db, path), orderBy(order));
     const unsub = onSnapshot(
       q,
       (querySnapshot) => {
@@ -27,7 +27,7 @@ const useFetchAllData = (path) => {
     );
 
     return unsub;
-  }, [path]);
+  }, [order, path]);
 
   useEffect(() => {
     setIsLoading(true);
