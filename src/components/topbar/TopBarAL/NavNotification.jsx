@@ -68,6 +68,8 @@ export default function NavNotification() {
           <NavDropdown.Item
             className="pt-2 pb-0"
             style={{ width: "350px" }}
+            as={Link}
+            to="/pesan"
             key={index}
           >
             <div className="d-flex justify-content-between">
@@ -113,7 +115,7 @@ export default function NavNotification() {
 
       <NavDropdown.Item
         as={Link}
-        to="/pesan"
+        to="/semua-pesan"
         className="pt-0"
         style={{ textDecoration: "none" }}
       >

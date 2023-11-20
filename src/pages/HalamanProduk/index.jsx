@@ -45,8 +45,8 @@ export default function HalamanProduk() {
             <ModalNego state={state} />
           </div>
 
-          <div className="d-flex bg-body border rounded-4 p-3">
-            <img src={User} alt="user" className="me-3" />
+          <div className="d-flex align-items-center bg-body border rounded-4 p-3">
+            <img src={User} alt="user" className="me-3 rounded" />
             <div>
               <p className="m-0">Nama Penjual</p>
               <p className="m-0 text-black-50" style={{ fontSize: "12px" }}>

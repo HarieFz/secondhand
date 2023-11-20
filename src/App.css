@@ -85,6 +85,11 @@
   background-color: #cccccc;
 }
 
+.form-check-input:checked {
+  background-color: #7126b5;
+  border-color: #7126b5;
+}
+
 .swal2-popup {
   font-size: 14px !important;
 }

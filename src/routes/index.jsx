@@ -6,6 +6,7 @@ import InfoProduk from "../pages/InfoProduk";
 import InfoProfile from "../pages/InfoProfile";
 import Login from "../pages/Login";
 import Layout from "../components/Layouts";
+import Pesan from "../pages/Pesan";
 import PreviewProduk from "../pages/PreviewProduk";
 import PrivateUser from "./user/PrivateUser";
 import ProtectedUser from "./user/ProtectedUser";
@@ -27,6 +28,7 @@ export default function SetupRouter() {
           <Route path="info-produk" element={<InfoProduk />} />
           <Route path="preview-produk" element={<PreviewProduk />} />
           <Route path="daftar-jual" element={<DaftarJual />} />
+          <Route path="pesan" element={<Pesan />} />
         </Route>
 
         <Route path="/" element={<Layout />}>
