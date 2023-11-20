@@ -5,11 +5,11 @@ import TopBar from "./TopBar";
 
 export default function Layout() {
   return (
-    <div>
+    <>
       <TopBar />
       <Container>
         <Outlet />
       </Container>
-    </div>
+    </>
   );
 }
