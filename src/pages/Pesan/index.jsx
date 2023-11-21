@@ -6,7 +6,7 @@ import User from "../../assets/img/user.png";
 import Watch from "../../assets/img/watch.png";
 import Whatsapp from "../../assets/icon/whatsapp.svg";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
 const buyer = {
   img: User,
@@ -30,82 +30,90 @@ export default function Pesan() {
   const [sold, setSold] = useState(false);
 
   return (
-    <div className="d-flex gap-5" style={{ padding: "0px 200px" }}>
-      <div>
-        <img
-          src={ArrowLeft}
-          alt="<-"
-          style={{ cursor: "pointer" }}
-          onClick={() => navigate("/")}
-        />
-      </div>
-      <div className="w-100">
-        <div className="d-flex align-items-center bg-body border rounded-4 p-3 mb-4">
-          <img src={User} alt="user" className="me-3 rounded" />
-          <div>
-            <p className="m-0">Nama Penjual</p>
-            <p className="m-0 text-black-50" style={{ fontSize: "12px" }}>
-              Kota
-            </p>
-          </div>
-        </div>
-
+    <Container>
+      <div className="d-flex gap-5" style={{ padding: "0px 200px" }}>
         <div>
-          <h5>Daftar Produkmu yang Ditawar</h5>
-          <div className="my-3">
-            <div className="d-flex justify-content-between">
-              <div className="d-flex gap-3">
-                <img
-                  src={item.img}
-                  alt="Items"
-                  width="48px"
-                  height="48px"
-                  style={{ objectFit: "cover" }}
-                  className="rounded-3"
-                />
-                <div>
-                  <p className="m-0 text-black-50" style={{ fontSize: "12px" }}>
-                    Penawaran produk
-                  </p>
-                  <p className="m-0">{item.name}</p>
-                  <p className="m-0">{item.price}</p>
-                  <p className="m-0">Ditawar {item.bargain_price}</p>
-                </div>
-              </div>
-              <div className="d-flex gap-2">
-                <div>
-                  <p className="m-0 text-black-50" style={{ fontSize: "12px" }}>
-                    {item.created_at}
-                  </p>
-                </div>
-              </div>
+          <img
+            src={ArrowLeft}
+            alt="<-"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          />
+        </div>
+        <div className="w-100">
+          <div className="d-flex align-items-center bg-body border rounded-4 p-3 mb-4">
+            <img src={User} alt="user" className="me-3 rounded" />
+            <div>
+              <p className="m-0">Nama Penjual</p>
+              <p className="m-0 text-black-50" style={{ fontSize: "12px" }}>
+                Kota
+              </p>
             </div>
           </div>
 
-          {sold ? (
-            <></>
-          ) : accept ? (
-            <div className="d-flex justify-content-end gap-3">
-              <ModalStatus setAccept={setAccept} setSold={setSold} />
-              <Button style={{ width: "158px" }}>
-                Hubungi di <img src={Whatsapp} alt="Whatsapp" />
-              </Button>
+          <div>
+            <h5>Daftar Produkmu yang Ditawar</h5>
+            <div className="my-3">
+              <div className="d-flex justify-content-between">
+                <div className="d-flex gap-3">
+                  <img
+                    src={item.img}
+                    alt="Items"
+                    width="48px"
+                    height="48px"
+                    style={{ objectFit: "cover" }}
+                    className="rounded-3"
+                  />
+                  <div>
+                    <p
+                      className="m-0 text-black-50"
+                      style={{ fontSize: "12px" }}
+                    >
+                      Penawaran produk
+                    </p>
+                    <p className="m-0">{item.name}</p>
+                    <p className="m-0">{item.price}</p>
+                    <p className="m-0">Ditawar {item.bargain_price}</p>
+                  </div>
+                </div>
+                <div className="d-flex gap-2">
+                  <div>
+                    <p
+                      className="m-0 text-black-50"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {item.created_at}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-          ) : (
-            <div className="d-flex justify-content-end gap-3">
-              <Button variant="outline-primary" style={{ width: "158px" }}>
-                Tolak
-              </Button>
-              <ModalTerimaTawaran
-                buyer={buyer}
-                item={item}
-                setAccept={setAccept}
-              />
-            </div>
-          )}
-          <hr />
+
+            {sold ? (
+              <></>
+            ) : accept ? (
+              <div className="d-flex justify-content-end gap-3">
+                <ModalStatus setAccept={setAccept} setSold={setSold} />
+                <Button style={{ width: "158px" }}>
+                  Hubungi di <img src={Whatsapp} alt="Whatsapp" />
+                </Button>
+              </div>
+            ) : (
+              <div className="d-flex justify-content-end gap-3">
+                <Button variant="outline-primary" style={{ width: "158px" }}>
+                  Tolak
+                </Button>
+                <ModalTerimaTawaran
+                  buyer={buyer}
+                  item={item}
+                  setAccept={setAccept}
+                />
+              </div>
+            )}
+            <hr />
+          </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
