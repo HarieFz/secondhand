@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Banner from "../../assets/img/login.png";
+import EyeGray from "../../assets/icon/eye-gray.svg";
+import EyePurple from "../../assets/icon/eye-purple.svg";
 import useSignIn from "../../hooks/authentication/useSignIn";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
 
   const onEmail = (e) => setEmail(e.target.value);
   const onPassword = (e) => setPassword(e.target.value);
@@ -20,7 +23,10 @@ export default function Login() {
   };
 
   return (
-    <Row className="d-flex justify-content-center align-items-center">
+    <Row
+      className="d-flex justify-content-center align-items-center"
+      style={{ width: "100%" }}
+    >
       <Col
         style={{ width: "100vw", height: "100vh" }}
         className="d-none d-md-block"
@@ -44,14 +50,25 @@ export default function Login() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
+          <Form.Label>Password</Form.Label>
+          <InputGroup className="mb-3">
             <Form.Control
-              type="text"
+              type={show ? "text" : "password"}
               placeholder="Masukkan password"
+              className="form-password"
               onChange={onPassword}
             />
-          </Form.Group>
+            <InputGroup.Text
+              className="label-password"
+              style={{
+                cursor: "pointer",
+                backgroundColor: "#FFFFFF",
+              }}
+              onClick={() => setShow((prev) => !prev)}
+            >
+              <img src={show ? EyePurple : EyeGray} alt="Show" />
+            </InputGroup.Text>
+          </InputGroup>
 
           <Button className="w-100" type="submit" disabled={isLoading}>
             {isLoading ? "Loading ..." : "Masuk"}
