@@ -54,7 +54,7 @@ export default function ModalNego({ state }) {
             style={{ background: "#EEEEEE" }}
           >
             <img
-              src={state.img}
+              src={state.img_url[0]}
               alt="items"
               width="48px"
               height="48px"
@@ -68,7 +68,7 @@ export default function ModalNego({ state }) {
           </div>
 
           <Form.Group className="mb-3">
-            <p className="m-0">Harga Tawar</p>
+            <p className="mb-1">Harga Tawar</p>
             <Form.Control
               type="text"
               placeholder="Rp 0,00"

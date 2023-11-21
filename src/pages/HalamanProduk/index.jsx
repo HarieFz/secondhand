@@ -1,5 +1,4 @@
 import React from "react";
-import User from "../../assets/img/user.png";
 import { Carousel, Col, Container, Row } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import ModalNego from "./components/ModalNego";
@@ -13,27 +12,23 @@ export default function HalamanProduk() {
         <Row>
           <Col lg={8}>
             <Carousel>
-              <Carousel.Item>
-                <img src={state.img} alt="" width="100%" />
-              </Carousel.Item>
+              {state.img_url.map((item, index) => (
+                <Carousel.Item key={index}>
+                  <img
+                    src={item}
+                    alt=""
+                    width="100%"
+                    height="436px"
+                    className="rounded-4"
+                    style={{ objectFit: "cover" }}
+                  />
+                </Carousel.Item>
+              ))}
             </Carousel>
 
             <div className="bg-body border rounded-4 p-3 mt-4">
               <h5>Deskripsi</h5>
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Corporis eos itaque eum? Provident debitis quis omnis facilis
-                architecto, voluptate aliquid ratione eum voluptatibus minus est
-                commodi vel voluptas quas cumque? Corporis non molestiae aliquid
-                quidem, dolor laudantium, adipisci eligendi suscipit vero
-                incidunt libero reiciendis perspiciatis tempora quo possimus.
-                Blanditiis dolor illum in, reprehenderit cumque ipsa maxime
-                inventore quasi totam saepe! Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Dolore voluptatibus eveniet
-                doloremque a molestias tempora perferendis blanditiis nulla
-                ipsum. Nulla similique nihil animi reprehenderit perferendis
-                deleniti, consequatur porro unde molestiae!
-              </p>
+              <p>{state.description}</p>
             </div>
           </Col>
           <Col lg={4}>
@@ -47,11 +42,18 @@ export default function HalamanProduk() {
             </div>
 
             <div className="d-flex align-items-center bg-body border rounded-4 p-3">
-              <img src={User} alt="user" className="me-3 rounded" />
+              <img
+                src={state.seller.photo_url}
+                alt="user"
+                width="48px"
+                height="48px"
+                className="me-3 rounded"
+                style={{ objectFit: "cover" }}
+              />
               <div>
-                <p className="m-0">Nama Penjual</p>
+                <p className="m-0">{state.seller.name}</p>
                 <p className="m-0 text-black-50" style={{ fontSize: "12px" }}>
-                  Kota
+                  {state.seller.city}
                 </p>
               </div>
             </div>

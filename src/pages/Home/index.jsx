@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Banner from "../../assets/img/banner.png";
 import BannerLeft from "../../assets/img/banner-left.png";
 import BannerRight from "../../assets/img/banner-right.png";
-import Watch from "../../assets/img/watch.png";
 import SearchWhite from "../../assets/icon/search-white.svg";
 import SearchBlack from "../../assets/icon/search-black.svg";
+import useFetchAllData from "../../hooks/query/useFetchAllData";
 import {
   Button,
   Card,
@@ -19,53 +19,11 @@ export default function Home() {
   const navigate = useNavigate();
   const [radioValue, setRadioValue] = useState("Semua");
 
-  const categories = [
-    { name: "Semua", value: "Semua" },
-    { name: "Hobi", value: "Hobi" },
-    { name: "Kendaraan", value: "Kendaraan" },
-    { name: "Baju", value: "Baju" },
-    { name: "Elektronik", value: "Elektronik" },
-    { name: "Kesehatan", value: "Kesehatan" },
-  ];
+  const _categories = useFetchAllData("categories");
+  const { data: categories, isLoading: loadingCategories } = _categories;
 
-  const items = [
-    {
-      img: Watch,
-      name: "Jam Tangan Casio",
-      category: "Aksesoris",
-      price: "Rp 250.000",
-    },
-    {
-      img: Watch,
-      name: "Jam Tangan Casio",
-      category: "Aksesoris",
-      price: "Rp 250.000",
-    },
-    {
-      img: Watch,
-      name: "Jam Tangan Casio",
-      category: "Aksesoris",
-      price: "Rp 250.000",
-    },
-    {
-      img: Watch,
-      name: "Jam Tangan Casio",
-      category: "Aksesoris",
-      price: "Rp 250.000",
-    },
-    {
-      img: Watch,
-      name: "Jam Tangan Casio",
-      category: "Aksesoris",
-      price: "Rp 250.000",
-    },
-    {
-      img: Watch,
-      name: "Jam Tangan Casio",
-      category: "Aksesoris",
-      price: "Rp 250.000",
-    },
-  ];
+  const _items = useFetchAllData("items");
+  const { data: items, isLoading: loadingItems } = _items;
 
   return (
     <>
@@ -87,29 +45,47 @@ export default function Home() {
         <div className="mb-5">
           <h5 className="mb-3">Telusuri Kategori</h5>
           <div className="d-flex gap-3 mb-4">
-            {categories.map((radio, idx) => (
+            <ToggleButton
+              id={`radio-all`}
+              type="radio"
+              variant={radioValue === "Semua" ? "primary" : "secondary"}
+              name="radio"
+              value="Semua"
+              checked={radioValue === "Semua"}
+              onChange={(e) => setRadioValue(e.currentTarget.value)}
+            >
+              {radioValue === "Semua" ? (
+                <img src={SearchWhite} alt="search" className="me-2" />
+              ) : (
+                <img src={SearchBlack} alt="search" className="me-2" />
+              )}
+              Semua
+            </ToggleButton>
+            {loadingCategories && <p>Loading ...</p>}
+            {categories.map((item, index) => (
               <ToggleButton
-                key={idx}
-                id={`radio-${idx}`}
+                key={index}
+                id={`radio-${index}`}
                 type="radio"
-                variant={radioValue === radio.value ? "primary" : "secondary"}
+                variant={radioValue === item.category ? "primary" : "secondary"}
                 name="radio"
-                value={radio.value}
-                checked={radioValue === radio.value}
+                value={item.category}
+                checked={radioValue === item.category}
                 onChange={(e) => setRadioValue(e.currentTarget.value)}
               >
-                {radioValue === radio.value ? (
+                {radioValue === item.category ? (
                   <img src={SearchWhite} alt="search" className="me-2" />
                 ) : (
                   <img src={SearchBlack} alt="search" className="me-2" />
                 )}
-                {radio.name}
+                {item.category}
               </ToggleButton>
             ))}
           </div>
 
           <div>
             <Row className="gy-4">
+              {loadingItems && <p>Loading ...</p>}
               {items.map((item, idx) => (
                 <Col lg={2} md={3} sm={4} xs={6} key={idx}>
                   <Card
@@ -123,8 +99,8 @@ export default function Home() {
                   >
                     <Card.Img
                       variant="top"
-                      src={item.img}
-                      className="img-fluid"
+                      src={item.img_url[0]}
+                      className="img-fluid rounded"
                     />
                     <Card.Body className="px-0">
                       <p className="mb-1 fw-bold">{item.name}</p>
@@ -142,8 +118,13 @@ export default function Home() {
             </Row>
           </div>
 
-          <div style={{ position: "fixed", bottom: "30px", right: "50%" }}>
-            <Button className="shadow" as={Link} to="/info-produk">
+          <div style={{ position: "fixed", bottom: "30px", right: "45%" }}>
+            <Button
+              className="shadow"
+              style={{ width: "115px" }}
+              as={Link}
+              to="/info-produk"
+            >
               + Jual
             </Button>
           </div>
