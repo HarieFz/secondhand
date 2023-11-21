@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import Banner from "../../assets/img/banner.png";
 import BannerLeft from "../../assets/img/banner-left.png";
@@ -13,7 +14,9 @@ import {
   Row,
   ToggleButton,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import currentUser from "../../global/dataUserCurrent";
+import Toast from "../../components/confirmToast";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -24,6 +27,31 @@ export default function Home() {
 
   const _items = useFetchAllData("items");
   const { data: items, isLoading: loadingItems } = _items;
+
+  const user = currentUser();
+  const { data } = user;
+
+  const handleSell = () => {
+    const _data = new Array(data);
+    const isHaveNotCompleteProfile = _data.every(
+      (item) =>
+        item.photo_url === "" ||
+        item.name === "" ||
+        item.city === "" ||
+        item.address === "" ||
+        item.phone_number === "" ||
+        item.email === ""
+    );
+
+    if (isHaveNotCompleteProfile === false) return navigate("/info-produk");
+    if (isHaveNotCompleteProfile === true) {
+      navigate("/info-profile");
+      Toast.fire({
+        text: "Silahkan lengkapi info akun terlebih dahulu",
+        background: "#FA2C5A",
+      });
+    }
+  };
 
   return (
     <>
@@ -122,8 +150,7 @@ export default function Home() {
             <Button
               className="shadow"
               style={{ width: "115px" }}
-              as={Link}
-              to="/info-produk"
+              onClick={handleSell}
             >
               + Jual
             </Button>
