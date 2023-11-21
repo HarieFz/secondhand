@@ -15,7 +15,7 @@ import {
   ToggleButton,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import currentUser from "../../global/dataUserCurrent";
+import dataCurrentUser from "../../global/dataCurrentUser";
 import Toast from "../../components/confirmToast";
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
   const _items = useFetchAllData("items");
   const { data: items, isLoading: loadingItems } = _items;
 
-  const user = currentUser();
+  const user = dataCurrentUser();
   const { data } = user;
 
   const handleSell = () => {

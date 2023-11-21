@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Toast from "../components/confirmToast";
 
-const currentUser = () => {
+const dataCurrentUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
 
@@ -34,4 +34,4 @@ const currentUser = () => {
   return { data, isLoading };
 };
 
-export default currentUser;
+export default dataCurrentUser;
