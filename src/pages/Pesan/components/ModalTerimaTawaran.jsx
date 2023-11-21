@@ -5,14 +5,12 @@ import Whatsapp from "../../../assets/icon/whatsapp.svg";
 export default function ModalTerimaTawaran({ buyer, item, setAccept }) {
   const [modalShow, setModalShow] = useState(false);
 
-  const handleClose = () => {
-    setModalShow(false);
-    setAccept(true);
-  };
+  const handleClose = () => setModalShow(false);
   const handleShow = () => setModalShow(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setAccept(true);
   };
 
   return (

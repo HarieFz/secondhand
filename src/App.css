@@ -65,6 +65,14 @@
   border-radius: 12px !important;
 }
 
+.list-message:hover {
+  background-color: #e0e0e0;
+}
+
+.list-message:active {
+  background-color: #d0d0d0;
+}
+
 .scrollbar {
   max-height: 320px;
   overflow-y: scroll;

@@ -1,15 +1,39 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import Swal from "sweetalert2";
 
-export default function ModalStatus() {
+export default function ModalStatus({ setAccept, setSold }) {
   const [modalShow, setModalShow] = useState(false);
+  const [status, setStatus] = useState(true);
 
   const handleClose = () => setModalShow(false);
   const handleShow = () => setModalShow(true);
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showCloseButton: true,
+    showConfirmButton: false,
+    color: "#FFFFFF",
+    background: "#73CA5C",
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (status === true) {
+      setSold(true);
+      Toast.fire({
+        text: "Status produk berhasil diperbarui",
+      });
+    }
+    if (status === false) {
+      setAccept(false);
+      Toast.fire({
+        text: "Status produk berhasil diperbarui",
+      });
+    }
   };
+
   return (
     <div>
       <div>
@@ -35,6 +59,9 @@ export default function ModalStatus() {
               <Form.Check
                 type="radio"
                 name="status"
+                value={true}
+                checked={status === true}
+                onChange={(e) => setStatus(true)}
                 label={
                   <div className="ms-2">
                     <p className="mb-2">Berhasil terjual</p>
@@ -48,6 +75,9 @@ export default function ModalStatus() {
               <Form.Check
                 type="radio"
                 name="status"
+                value={false}
+                checked={status === false}
+                onChange={(e) => setStatus(false)}
                 label={
                   <div className="ms-2">
                     <p className="mb-2">Batalkan transaksi</p>

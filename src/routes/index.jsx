@@ -11,6 +11,7 @@ import PreviewProduk from "../pages/PreviewProduk";
 import PrivateUser from "./user/PrivateUser";
 import ProtectedUser from "./user/ProtectedUser";
 import Register from "../pages/Register";
+import SemuaPesan from "../pages/SemuaPesan";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export default function SetupRouter() {
@@ -28,6 +29,7 @@ export default function SetupRouter() {
           <Route path="info-produk" element={<InfoProduk />} />
           <Route path="preview-produk" element={<PreviewProduk />} />
           <Route path="daftar-jual" element={<DaftarJual />} />
+          <Route path="semua-pesan" element={<SemuaPesan />} />
           <Route path="pesan" element={<Pesan />} />
         </Route>
 

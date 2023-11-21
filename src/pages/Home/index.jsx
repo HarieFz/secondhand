@@ -60,12 +60,12 @@ export default function Home() {
 
   return (
     <>
-      <div className="text-center mb-4">
+      <div className="text-center mb-5">
         <img src={Banner} alt="Banner" />
       </div>
 
       <div className="mb-5">
-        <h5>Telusuri Kategori</h5>
+        <h5 className="mb-3">Telusuri Kategori</h5>
         <div className="d-flex gap-3 mb-4">
           {categories.map((radio, idx) => (
             <ToggleButton

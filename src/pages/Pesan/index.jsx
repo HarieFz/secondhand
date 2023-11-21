@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ArrowLeft from "../../assets/icon/arrow-left.svg";
+import ModalStatus from "./components/ModalStatus";
 import ModalTerimaTawaran from "./components/ModalTerimaTawaran";
 import User from "../../assets/img/user.png";
 import Watch from "../../assets/img/watch.png";
 import Whatsapp from "../../assets/icon/whatsapp.svg";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import ModalStatus from "./components/ModalStatus";
 
 const buyer = {
   img: User,
@@ -27,7 +27,7 @@ const item = {
 export default function Pesan() {
   const navigate = useNavigate();
   const [accept, setAccept] = useState(false);
-  console.log(accept);
+  const [sold, setSold] = useState(false);
 
   return (
     <div className="d-flex gap-5" style={{ padding: "0px 200px" }}>
@@ -82,9 +82,11 @@ export default function Pesan() {
             </div>
           </div>
 
-          {accept ? (
+          {sold ? (
+            <></>
+          ) : accept ? (
             <div className="d-flex justify-content-end gap-3">
-              <ModalStatus setAccept={setAccept} />
+              <ModalStatus setAccept={setAccept} setSold={setSold} />
               <Button style={{ width: "158px" }}>
                 Hubungi di <img src={Whatsapp} alt="Whatsapp" />
               </Button>
