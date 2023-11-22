@@ -11,16 +11,17 @@ export default function HalamanProduk() {
       <div style={{ padding: "0px 100px", marginBottom: "30px" }}>
         <Row>
           <Col lg={8}>
-            <Carousel>
+            <Carousel className="rounded-4 border">
               {state.img_url.map((item, index) => (
                 <Carousel.Item key={index}>
                   <img
                     src={item}
                     alt=""
-                    width="100%"
+                    width="600px"
                     height="436px"
-                    className="rounded-4"
-                    style={{ objectFit: "cover" }}
+                    style={{
+                      objectFit: "contain",
+                    }}
                   />
                 </Carousel.Item>
               ))}

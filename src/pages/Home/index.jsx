@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
+import dataCurrentUser from "../../global/dataCurrentUser";
 import Banner from "../../assets/img/banner.png";
 import BannerLeft from "../../assets/img/banner-left.png";
 import BannerRight from "../../assets/img/banner-right.png";
 import SearchWhite from "../../assets/icon/search-white.svg";
 import SearchBlack from "../../assets/icon/search-black.svg";
+import Toast from "../../components/confirmToast";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
 import {
   Button,
@@ -15,8 +17,6 @@ import {
   ToggleButton,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import dataCurrentUser from "../../global/dataCurrentUser";
-import Toast from "../../components/confirmToast";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -28,11 +28,11 @@ export default function Home() {
   const _items = useFetchAllData("items");
   const { data: items, isLoading: loadingItems } = _items;
 
-  const user = dataCurrentUser();
-  const { data } = user;
+  const _user = dataCurrentUser();
+  const { data: user } = _user;
 
   const handleSell = () => {
-    const _data = new Array(data);
+    const _data = new Array(user);
     const isHaveNotCompleteProfile = _data.every(
       (item) =>
         item.photo_url === "" ||
@@ -129,6 +129,7 @@ export default function Home() {
                       variant="top"
                       src={item.img_url[0]}
                       className="img-fluid rounded"
+                      style={{ height: "100px", objectFit: "contain" }}
                     />
                     <Card.Body className="px-0">
                       <p className="mb-1 fw-bold">{item.name}</p>
