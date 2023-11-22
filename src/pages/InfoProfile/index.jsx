@@ -102,7 +102,7 @@ export default function InfoProfile() {
         .catch((err) => {
           console.log(err);
           Toast.fire({
-            text: "Harga tawarmu berhasil dikirim ke penjual",
+            text: "Terjasi suatu kesalahan, silahkan coba lagi",
             background: "#FA2C5A",
           });
         });

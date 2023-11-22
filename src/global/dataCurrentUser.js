@@ -14,7 +14,7 @@ const dataCurrentUser = () => {
       const unsub = onSnapshot(
         doc(db, "users", user.uid),
         (doc) => {
-          setData(doc.data());
+          setData({ id: doc.id, ...doc.data() });
           setIsLoading(false);
         },
         (error) => {

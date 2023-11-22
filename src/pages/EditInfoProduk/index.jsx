@@ -1,26 +1,35 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import ArrowLeft from "../../assets/icon/arrow-left.svg";
 import dataCurrentUser from "../../global/dataCurrentUser";
 import RemoveX from "../../assets/icon/remove-x.svg";
 import Toast from "../../components/confirmToast";
 import UploadProduk from "../../assets/img/upload-produk.png";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
-import { addDoc, collection } from "firebase/firestore";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { db, storage } from "../../config/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function InfoProduk() {
+export default function EditInfoProduk() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const fileInput = useRef([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [img, setImg] = useState([{ file: null, preview: null }]);
+  const [img, setImg] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setName(state?.name);
+    setPrice(state?.price);
+    setCategory(state?.category);
+    setDescription(state?.description);
+    setImg(state?.img);
+  }, [state]);
 
   const onName = (e) => setName(e.target.value);
   const onPrice = (e) => setPrice(e.target.value);
@@ -91,7 +100,7 @@ export default function InfoProduk() {
     e.preventDefault();
     setIsLoading(true);
     const imgURL = await handlePhoto();
-    addDoc(collection(db, "items"), {
+    updateDoc(doc(db, "items", state.id), {
       name: name,
       price: price,
       category: category,
@@ -227,7 +236,7 @@ export default function InfoProduk() {
                   </div>
                 ) : (
                   <img
-                    src={item.preview}
+                    src={item.file && URL.createObjectURL(item.file)}
                     alt="Produk"
                     className="rounded-4"
                     style={{
@@ -252,7 +261,7 @@ export default function InfoProduk() {
                   />
                 </Form.Group>
 
-                {index && index === img.length - 1 && (
+                {index && index === img?.length - 1 && (
                   <div
                     style={{
                       position: "relative",
@@ -268,7 +277,7 @@ export default function InfoProduk() {
               </li>
             ))}
 
-            {img.length < 4 ? (
+            {img?.length < 4 ? (
               <div>
                 <Button variant="outline-primary" onClick={addPhoto}>
                   Tambah
@@ -301,7 +310,7 @@ export default function InfoProduk() {
                   !price ||
                   !category ||
                   !description ||
-                  img.some(isEmpty) ||
+                  img?.some(isEmpty) ||
                   isLoading
                 }
               >
@@ -317,7 +326,7 @@ export default function InfoProduk() {
                   !price ||
                   !category ||
                   !description ||
-                  img.some(isEmpty) ||
+                  img?.some(isEmpty) ||
                   isLoading
                 }
               >
