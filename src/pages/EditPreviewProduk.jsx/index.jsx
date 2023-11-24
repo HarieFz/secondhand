@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import dataCurrentUser from "../../global/dataCurrentUser";
 import Toast from "../../components/confirmToast";
-import { addDoc, collection } from "firebase/firestore";
 import { Button, Carousel, Col, Container, Row } from "react-bootstrap";
 import { db, storage } from "../../config/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function PreviewProduk() {
+export default function EditPreviewProduk() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -15,39 +15,46 @@ export default function PreviewProduk() {
   const _user = dataCurrentUser();
   const { data: user } = _user;
 
-  const isEmpty = (element) =>
-    element.file === null ||
-    element.file === undefined ||
-    element.preview === null ||
-    element.preview === "";
+  const isFile = (input) => "File" in window && input instanceof File;
 
   // Upload Photo to Storage
   const handlePhoto = async () => {
     if (!state.img) return;
-    if (!state.img.some(isEmpty)) {
-      const imgURL = [];
+    const imgURL = [];
+    const imgFile = [];
 
-      for (const photo of state.img) {
-        const path = `items/${photo?.file?.name}`;
-        const storageRef = ref(storage, path);
-        const uploadTask = uploadBytesResumable(storageRef, photo?.file);
+    const resultDownloadURL = [];
 
-        await uploadTask;
-
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-        imgURL.push(downloadURL);
+    for (const _image of state.img) {
+      if (isFile(_image.file)) {
+        imgFile.push(_image.file);
+      } else {
+        imgURL.push(_image.file);
       }
-
-      return imgURL;
     }
+
+    for (const image of imgFile) {
+      const path = `items/${image?.name}`;
+      const storageRef = ref(storage, path);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      await uploadTask;
+
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+      resultDownloadURL.push(downloadURL);
+    }
+
+    const imagesURL = imgURL.concat(resultDownloadURL);
+
+    return imagesURL;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const imgURL = await handlePhoto();
-    addDoc(collection(db, "items"), {
+    updateDoc(doc(db, "items", state?.id), {
       name: state.name,
       price: state.price,
       category: state.category,
@@ -81,10 +88,14 @@ export default function PreviewProduk() {
         <Row>
           <Col lg={8}>
             <Carousel className="rounded-4 border">
-              {state?.img?.map((photo, index) => (
+              {state?.img?.map((image, index) => (
                 <Carousel.Item key={index}>
                   <img
-                    src={photo.file && URL.createObjectURL(photo.file)}
+                    src={
+                      isFile(image.file)
+                        ? URL.createObjectURL(image.file)
+                        : image.file
+                    }
                     alt=""
                     width="600px"
                     height="436px"
@@ -124,8 +135,9 @@ export default function PreviewProduk() {
                   variant="outline-primary"
                   className="w-100"
                   onClick={() =>
-                    navigate("/info-produk", {
+                    navigate("/edit-info-produk", {
                       state: {
+                        id: state.id,
                         name: state.name,
                         price: state.price,
                         category: state.category,

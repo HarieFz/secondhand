@@ -20,15 +20,36 @@ export default function EditInfoProduk() {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [img, setImg] = useState([]);
+  const [img, setImg] = useState([{ file: null, preview: null }]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const isFile = (input) => "File" in window && input instanceof File;
+
   useEffect(() => {
-    setName(state?.name);
-    setPrice(state?.price);
-    setCategory(state?.category);
-    setDescription(state?.description);
-    setImg(state?.img);
+    if (state) {
+      setName(state?.name);
+      setPrice(state?.price);
+      setCategory(state?.category);
+      setDescription(state?.description);
+      setImg(() => {
+        const image = [];
+        state?.img?.forEach((item) => {
+          if (isFile(item.file)) {
+            return image.push({
+              file: item.file,
+              preview: item.file && URL.createObjectURL(item.file),
+            });
+          } else {
+            return image.push({
+              file: item.file,
+              preview: item.preview,
+            });
+          }
+        });
+
+        return image;
+      });
+    }
   }, [state]);
 
   const onName = (e) => setName(e.target.value);
@@ -76,31 +97,42 @@ export default function EditInfoProduk() {
 
   // Upload Photo to Storage
   const handlePhoto = async () => {
-    if (!img) return;
-    if (!img.some(isEmpty)) {
-      const imgURL = [];
+    if (!state.img) return;
+    const imgURL = [];
+    const imgFile = [];
 
-      for (const photo of img) {
-        const path = `items/${photo?.file?.name}`;
-        const storageRef = ref(storage, path);
-        const uploadTask = uploadBytesResumable(storageRef, photo?.file);
+    const resultDownloadURL = [];
 
-        await uploadTask;
-
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-        imgURL.push(downloadURL);
+    for (const _image of img) {
+      if (isFile(_image.file)) {
+        imgFile.push(_image.file);
+      } else {
+        imgURL.push(_image.file);
       }
-
-      return imgURL;
     }
+
+    for (const image of imgFile) {
+      const path = `items/${image?.name}`;
+      const storageRef = ref(storage, path);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      await uploadTask;
+
+      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+      resultDownloadURL.push(downloadURL);
+    }
+
+    const imagesURL = imgURL.concat(resultDownloadURL);
+
+    return imagesURL;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const imgURL = await handlePhoto();
-    updateDoc(doc(db, "items", state.id), {
+    updateDoc(doc(db, "items", state?.id), {
       name: name,
       price: price,
       category: category,
@@ -110,7 +142,8 @@ export default function EditInfoProduk() {
       sold: false,
       seller: user,
     })
-      .then(() => {
+      .then((data) => {
+        console.log(data);
         navigate("/daftar-jual");
         setIsLoading(false);
         Toast.fire({
@@ -136,7 +169,7 @@ export default function EditInfoProduk() {
             src={ArrowLeft}
             alt="<-"
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/daftar-jual")}
           />
         </div>
         <Form className="w-100">
@@ -236,7 +269,7 @@ export default function EditInfoProduk() {
                   </div>
                 ) : (
                   <img
-                    src={item.file && URL.createObjectURL(item.file)}
+                    src={isFile(item.file) ? item.preview : item.file}
                     alt="Produk"
                     className="rounded-4"
                     style={{
@@ -294,8 +327,9 @@ export default function EditInfoProduk() {
                 variant="outline-primary"
                 className="w-100"
                 onClick={() =>
-                  navigate("/preview-produk", {
+                  navigate("/edit-preview-produk", {
                     state: {
+                      id: state?.id,
                       name,
                       price,
                       category,

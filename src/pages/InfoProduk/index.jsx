@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import ArrowLeft from "../../assets/icon/arrow-left.svg";
 import dataCurrentUser from "../../global/dataCurrentUser";
 import RemoveX from "../../assets/icon/remove-x.svg";
@@ -9,10 +9,13 @@ import { addDoc, collection } from "firebase/firestore";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { db, storage } from "../../config/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function InfoProduk() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+
+  console.log(state);
 
   const fileInput = useRef([]);
   const [name, setName] = useState("");
@@ -21,6 +24,26 @@ export default function InfoProduk() {
   const [description, setDescription] = useState("");
   const [img, setImg] = useState([{ file: null, preview: null }]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (state) {
+      setName(state?.name);
+      setPrice(state?.price);
+      setCategory(state?.category);
+      setDescription(state?.description);
+      setImg(() => {
+        const image = [];
+        state?.img.map((item) => {
+          return image.push({
+            file: item.file,
+            preview: URL.createObjectURL(item.file),
+          });
+        });
+
+        return image;
+      });
+    }
+  }, [state]);
 
   const onName = (e) => setName(e.target.value);
   const onPrice = (e) => setPrice(e.target.value);
