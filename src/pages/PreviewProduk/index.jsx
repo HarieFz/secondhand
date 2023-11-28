@@ -1,61 +1,36 @@
-import React, { useState } from "react";
-import dataCurrentUser from "../../global/dataCurrentUser";
+import React, { useContext, useState } from "react";
 import Toast from "../../components/confirmToast";
 import { addDoc, collection } from "firebase/firestore";
 import { Button, Carousel, Col, Container, Row } from "react-bootstrap";
-import { db, storage } from "../../config/firebase";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useLocation, useNavigate } from "react-router-dom";
+import { db } from "../../config/firebase";
+import { ProdukContext } from "../../context/ProdukProvider";
 
 export default function PreviewProduk() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
   const [isLoading, setIsLoading] = useState(false);
-
-  const _user = dataCurrentUser();
-  const { data: user } = _user;
-
-  const isEmpty = (element) =>
-    element.file === null ||
-    element.file === undefined ||
-    element.preview === null ||
-    element.preview === "";
-
-  // Upload Photo to Storage
-  const handlePhoto = async () => {
-    if (!state.img) return;
-    if (!state.img.some(isEmpty)) {
-      const imgURL = [];
-
-      for (const photo of state.img) {
-        const path = `items/${photo?.file?.name}`;
-        const storageRef = ref(storage, path);
-        const uploadTask = uploadBytesResumable(storageRef, photo?.file);
-
-        await uploadTask;
-
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-        imgURL.push(downloadURL);
-      }
-
-      return imgURL;
-    }
-  };
+  const {
+    name,
+    price,
+    category,
+    description,
+    img,
+    seller,
+    handlePhoto,
+    navigate,
+  } = useContext(ProdukContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const imgURL = await handlePhoto();
     addDoc(collection(db, "items"), {
-      name: state.name,
-      price: state.price,
-      category: state.category,
-      description: state.description,
+      name: name,
+      price: price,
+      category: category,
+      description: description,
       img_url: imgURL,
       interested: false,
       sold: false,
-      seller: user,
+      seller: seller,
     })
       .then(() => {
         navigate("/daftar-jual");
@@ -81,7 +56,7 @@ export default function PreviewProduk() {
         <Row>
           <Col lg={8}>
             <Carousel className="rounded-4 border">
-              {state?.img?.map((photo, index) => (
+              {img?.map((photo, index) => (
                 <Carousel.Item key={index}>
                   <img
                     src={photo.file && URL.createObjectURL(photo.file)}
@@ -98,16 +73,16 @@ export default function PreviewProduk() {
 
             <div className="bg-body border rounded-4 p-3 mt-4">
               <h5>Deskripsi</h5>
-              <p>{state.description}</p>
+              <p>{description}</p>
             </div>
           </Col>
           <Col lg={4}>
             <div className="bg-body border border-2 rounded-4 p-3 mb-3">
-              <p className="mb-1 fw-bold">{state.name}</p>
+              <p className="mb-1 fw-bold">{name}</p>
               <p className="text-black-50" style={{ fontSize: "12px" }}>
-                {state.category}
+                {category}
               </p>
-              <p className="m-0 fw-bold mb-3">{state.price}</p>
+              <p className="m-0 fw-bold mb-3">{price}</p>
 
               <div className="mb-2">
                 <Button
@@ -123,18 +98,7 @@ export default function PreviewProduk() {
                 <Button
                   variant="outline-primary"
                   className="w-100"
-                  onClick={() =>
-                    navigate("/info-produk", {
-                      state: {
-                        name: state.name,
-                        price: state.price,
-                        category: state.category,
-                        description: state.description,
-                        img: state.img,
-                        seller: state.seller,
-                      },
-                    })
-                  }
+                  onClick={() => navigate("/info-produk")}
                   disabled={isLoading}
                 >
                   Edit
@@ -144,7 +108,7 @@ export default function PreviewProduk() {
 
             <div className="d-flex bg-body border rounded-4 p-3">
               <img
-                src={state.seller.photo_url}
+                src={seller.photo_url}
                 alt="user"
                 className="me-3 rounded"
                 width="48px"
@@ -152,9 +116,9 @@ export default function PreviewProduk() {
                 style={{ objectFit: "cover" }}
               />
               <div>
-                <p className="m-0">{state.seller.name}</p>
+                <p className="m-0">{seller.name}</p>
                 <p className="m-0 text-black-50" style={{ fontSize: "12px" }}>
-                  {state.seller.city}
+                  {seller.city}
                 </p>
               </div>
             </div>

@@ -1,113 +1,40 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useContext, useRef, useState } from "react";
 import ArrowLeft from "../../assets/icon/arrow-left.svg";
-import dataCurrentUser from "../../global/dataCurrentUser";
 import RemoveX from "../../assets/icon/remove-x.svg";
 import Toast from "../../components/confirmToast";
 import UploadProduk from "../../assets/img/upload-produk.png";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
 import { addDoc, collection } from "firebase/firestore";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { db, storage } from "../../config/firebase";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useLocation, useNavigate } from "react-router-dom";
+import { db } from "../../config/firebase";
+import { ProdukContext } from "../../context/ProdukProvider";
 
 export default function InfoProduk() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-
-  console.log(state);
-
   const fileInput = useRef([]);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [img, setImg] = useState([{ file: null, preview: null }]);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (state) {
-      setName(state?.name);
-      setPrice(state?.price);
-      setCategory(state?.category);
-      setDescription(state?.description);
-      setImg(() => {
-        const image = [];
-        state?.img.map((item) => {
-          return image.push({
-            file: item.file,
-            preview: URL.createObjectURL(item.file),
-          });
-        });
-
-        return image;
-      });
-    }
-  }, [state]);
-
-  const onName = (e) => setName(e.target.value);
-  const onPrice = (e) => setPrice(e.target.value);
-  const onCategory = (e) => setCategory(e.target.value);
-  const onDescription = (e) => setDescription(e.target.value);
-  const onPhoto = (e, index) => {
-    let data = [...img];
-    if (e.target.name === "file") {
-      data[index].file = e.target.files[0];
-      data[index].preview =
-        e.target.value && URL.createObjectURL(e.target.files[0]);
-    }
-
-    setImg(data);
-  };
+  const _categories = useFetchAllData("categories");
+  const { data: categories, isLoading: loadingCategories } = _categories;
+  const {
+    name,
+    price,
+    category,
+    description,
+    img,
+    seller,
+    onName,
+    onPrice,
+    onCategory,
+    onDescription,
+    onPhoto,
+    addPhoto,
+    removePhoto,
+    isEmpty,
+    handlePhoto,
+    navigate,
+  } = useContext(ProdukContext);
 
   const handleClick = (i) => {
     fileInput.current[i].click();
-  };
-
-  const addPhoto = () => {
-    let newPhoto = { file: null, preview: null };
-
-    setImg([...img, newPhoto]);
-  };
-
-  const removePhoto = (i) => {
-    let newPhoto = [...img];
-    newPhoto.splice(i, 1);
-    setImg(newPhoto);
-  };
-
-  const _user = dataCurrentUser();
-  const { data: user } = _user;
-
-  const _categories = useFetchAllData("categories");
-  const { data: categories, isLoading: loadingCategories } = _categories;
-
-  const isEmpty = (element) =>
-    element.file === null ||
-    element.file === undefined ||
-    element.preview === null ||
-    element.preview === "";
-
-  // Upload Photo to Storage
-  const handlePhoto = async () => {
-    if (!img) return;
-    if (!img.some(isEmpty)) {
-      const imgURL = [];
-
-      for (const photo of img) {
-        const path = `items/${photo?.file?.name}`;
-        const storageRef = ref(storage, path);
-        const uploadTask = uploadBytesResumable(storageRef, photo?.file);
-
-        await uploadTask;
-
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-        imgURL.push(downloadURL);
-      }
-
-      return imgURL;
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -122,7 +49,7 @@ export default function InfoProduk() {
       img_url: imgURL,
       interested: false,
       sold: false,
-      seller: user,
+      seller: seller,
     })
       .then(() => {
         navigate("/daftar-jual");
@@ -260,7 +187,6 @@ export default function InfoProduk() {
                       objectFit: "cover",
                     }}
                     onClick={() => handleClick(index)}
-                    onLoad={() => URL.revokeObjectURL(item.preview)}
                   />
                 )}
 
@@ -307,18 +233,7 @@ export default function InfoProduk() {
               <Button
                 variant="outline-primary"
                 className="w-100"
-                onClick={() =>
-                  navigate("/preview-produk", {
-                    state: {
-                      name,
-                      price,
-                      category,
-                      description,
-                      img,
-                      seller: user,
-                    },
-                  })
-                }
+                onClick={() => navigate("/preview-produk")}
                 disabled={
                   !name ||
                   !price ||
