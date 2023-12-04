@@ -129,7 +129,8 @@ export default function Home() {
                       variant="top"
                       src={item.img_url[0]}
                       className="img-fluid rounded"
-                      style={{ height: "100px", objectFit: "contain" }}
+                      alt="Foto Barang"
+                      style={{ height: "100px", objectFit: "cover" }}
                     />
                     <Card.Body className="px-0">
                       <p className="mb-1 fw-bold">{item.name}</p>

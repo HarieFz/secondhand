@@ -1,17 +1,13 @@
-import React, { Fragment, useContext, useRef, useState } from "react";
+import React, { Fragment, useContext, useRef } from "react";
 import ArrowLeft from "../../assets/icon/arrow-left.svg";
 import RemoveX from "../../assets/icon/remove-x.svg";
-import Toast from "../../components/confirmToast";
 import UploadProduk from "../../assets/img/upload-produk.png";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
-import { addDoc, collection } from "firebase/firestore";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { db } from "../../config/firebase";
 import { ProdukContext } from "../../context/ProdukProvider";
 
 export default function InfoProduk() {
   const fileInput = useRef([]);
-  const [isLoading, setIsLoading] = useState(false);
   const _categories = useFetchAllData("categories");
   const { data: categories, isLoading: loadingCategories } = _categories;
   const {
@@ -20,7 +16,6 @@ export default function InfoProduk() {
     category,
     description,
     img,
-    seller,
     onName,
     onPrice,
     onCategory,
@@ -29,44 +24,13 @@ export default function InfoProduk() {
     addPhoto,
     removePhoto,
     isEmpty,
-    handlePhoto,
+    isLoading,
     navigate,
+    handleSubmit,
   } = useContext(ProdukContext);
 
   const handleClick = (i) => {
     fileInput.current[i].click();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const imgURL = await handlePhoto();
-    addDoc(collection(db, "items"), {
-      name: name,
-      price: price,
-      category: category,
-      description: description,
-      img_url: imgURL,
-      interested: false,
-      sold: false,
-      seller: seller,
-    })
-      .then(() => {
-        navigate("/daftar-jual");
-        setIsLoading(false);
-        Toast.fire({
-          text: "Produk berhasil diterbitkan",
-          background: "#73CA5C",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-        Toast.fire({
-          text: "Terjadi suatu kesalahan, silahkan coba lagi",
-          background: "#FA2C5A",
-        });
-      });
   };
 
   return (
@@ -77,7 +41,7 @@ export default function InfoProduk() {
             src={ArrowLeft}
             alt="<-"
             style={{ cursor: "pointer" }}
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
           />
         </div>
         <Form className="w-100">

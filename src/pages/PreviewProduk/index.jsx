@@ -1,12 +1,8 @@
-import React, { useContext, useState } from "react";
-import Toast from "../../components/confirmToast";
-import { addDoc, collection } from "firebase/firestore";
+import React, { useContext } from "react";
 import { Button, Carousel, Col, Container, Row } from "react-bootstrap";
-import { db } from "../../config/firebase";
 import { ProdukContext } from "../../context/ProdukProvider";
 
 export default function PreviewProduk() {
-  const [isLoading, setIsLoading] = useState(false);
   const {
     name,
     price,
@@ -14,57 +10,29 @@ export default function PreviewProduk() {
     description,
     img,
     seller,
-    handlePhoto,
+    isLoading,
+    handleSubmit,
     navigate,
   } = useContext(ProdukContext);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const imgURL = await handlePhoto();
-    addDoc(collection(db, "items"), {
-      name: name,
-      price: price,
-      category: category,
-      description: description,
-      img_url: imgURL,
-      interested: false,
-      sold: false,
-      seller: seller,
-    })
-      .then(() => {
-        navigate("/daftar-jual");
-        setIsLoading(false);
-        Toast.fire({
-          text: "Produk berhasil diterbitkan",
-          background: "#73CA5C",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-        Toast.fire({
-          text: "Terjadi suatu kesalahan, silahkan coba lagi",
-          background: "#FA2C5A",
-        });
-      });
-  };
 
   return (
     <Container>
       <div style={{ padding: "0px 100px", marginBottom: "30px" }}>
         <Row>
           <Col lg={8}>
-            <Carousel className="rounded-4 border">
+            <Carousel style={{ width: "600px", height: "436px" }}>
               {img?.map((photo, index) => (
-                <Carousel.Item key={index}>
+                <Carousel.Item
+                  key={index}
+                  style={{ width: "600px", height: "436px" }}
+                >
                   <img
                     src={photo.file && URL.createObjectURL(photo.file)}
                     alt=""
-                    width="600px"
-                    height="436px"
+                    width="100%"
+                    height="100%"
                     style={{
-                      objectFit: "contain",
+                      objectFit: "cover",
                     }}
                   />
                 </Carousel.Item>

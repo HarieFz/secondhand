@@ -11,7 +11,7 @@ const useFetchDataById = (path, id) => {
     const unsub = onSnapshot(
       doc(db, path, id),
       (doc) => {
-        setData(doc.data());
+        setData({ id: doc.id, ...doc.data() });
         setIsLoading(false);
       },
       (error) => {

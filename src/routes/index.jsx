@@ -16,6 +16,7 @@ import InfoProduk from "../pages/InfoProduk/index.jsx";
 import PreviewProduk from "../pages/PreviewProduk/index.jsx";
 import ProdukProvider from "../context/ProdukProvider.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import EditProdukProvider from "../context/EditProdukProvider.jsx";
 
 export default function SetupRouter() {
   return (
@@ -33,8 +34,13 @@ export default function SetupRouter() {
             <Route path="info-produk" element={<InfoProduk />} />
             <Route path="preview-produk" element={<PreviewProduk />} />
           </Route>
-          <Route path="edit-info-produk" element={<EditInfoProduk />} />
-          <Route path="edit-preview-produk" element={<EditPreviewProduk />} />
+          <Route element={<EditProdukProvider />}>
+            <Route path="edit-info-produk/:id" element={<EditInfoProduk />} />
+            <Route
+              path="edit-preview-produk/:id"
+              element={<EditPreviewProduk />}
+            />
+          </Route>
           <Route path="daftar-jual" element={<DaftarJual />} />
           <Route path="semua-pesan" element={<SemuaPesan />} />
           <Route path="pesan" element={<Pesan />} />

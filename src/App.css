@@ -55,6 +55,10 @@
   margin: 0px !important;
 }
 
+.carousel-inner {
+  border-radius: 1rem !important;
+}
+
 .dropdown-menu {
   --bs-dropdown-link-hover-bg: #e0e0e0;
   --bs-dropdown-link-active-bg: #d0d0d0;

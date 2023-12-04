@@ -1,164 +1,36 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useContext, useRef } from "react";
 import ArrowLeft from "../../assets/icon/arrow-left.svg";
-import dataCurrentUser from "../../global/dataCurrentUser";
 import RemoveX from "../../assets/icon/remove-x.svg";
-import Toast from "../../components/confirmToast";
 import UploadProduk from "../../assets/img/upload-produk.png";
-import useFetchAllData from "../../hooks/query/useFetchAllData";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { db, storage } from "../../config/firebase";
-import { doc, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useLocation, useNavigate } from "react-router-dom";
+import { EditProdukContext } from "../../context/EditProdukProvider";
 
 export default function EditInfoProduk() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-
   const fileInput = useRef([]);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [img, setImg] = useState([{ file: null, preview: null }]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const isFile = (input) => "File" in window && input instanceof File;
-
-  useEffect(() => {
-    if (state) {
-      setName(state?.name);
-      setPrice(state?.price);
-      setCategory(state?.category);
-      setDescription(state?.description);
-      setImg(() => {
-        const image = [];
-        state?.img?.forEach((item) => {
-          if (isFile(item.file)) {
-            return image.push({
-              file: item.file,
-              preview: item.file && URL.createObjectURL(item.file),
-            });
-          } else {
-            return image.push({
-              file: item.file,
-              preview: item.preview,
-            });
-          }
-        });
-
-        return image;
-      });
-    }
-  }, [state]);
-
-  const onName = (e) => setName(e.target.value);
-  const onPrice = (e) => setPrice(e.target.value);
-  const onCategory = (e) => setCategory(e.target.value);
-  const onDescription = (e) => setDescription(e.target.value);
-  const onPhoto = (e, index) => {
-    let data = [...img];
-    if (e.target.name === "file") {
-      data[index].file = e.target.files[0];
-      data[index].preview =
-        e.target.value && URL.createObjectURL(e.target.files[0]);
-    }
-
-    setImg(data);
-  };
+  const {
+    id,
+    name,
+    price,
+    category,
+    description,
+    img,
+    categories,
+    loadingCategories,
+    onName,
+    onPrice,
+    onCategory,
+    onDescription,
+    onPhoto,
+    addPhoto,
+    removePhoto,
+    isEmpty,
+    isLoading,
+    handleSubmit,
+    navigate,
+  } = useContext(EditProdukContext);
 
   const handleClick = (i) => {
     fileInput.current[i].click();
-  };
-
-  const addPhoto = () => {
-    let newPhoto = { file: null, preview: null };
-
-    setImg([...img, newPhoto]);
-  };
-
-  const removePhoto = (i) => {
-    let newPhoto = [...img];
-    newPhoto.splice(i, 1);
-    setImg(newPhoto);
-  };
-
-  const _user = dataCurrentUser();
-  const { data: user } = _user;
-
-  const _categories = useFetchAllData("categories");
-  const { data: categories, isLoading: loadingCategories } = _categories;
-
-  const isEmpty = (element) =>
-    element.file === null ||
-    element.file === undefined ||
-    element.preview === null ||
-    element.preview === "";
-
-  // Upload Photo to Storage
-  const handlePhoto = async () => {
-    if (!state.img) return;
-    const imgURL = [];
-    const imgFile = [];
-
-    const resultDownloadURL = [];
-
-    for (const _image of img) {
-      if (isFile(_image.file)) {
-        imgFile.push(_image.file);
-      } else {
-        imgURL.push(_image.file);
-      }
-    }
-
-    for (const image of imgFile) {
-      const path = `items/${image?.name}`;
-      const storageRef = ref(storage, path);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-
-      await uploadTask;
-
-      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-      resultDownloadURL.push(downloadURL);
-    }
-
-    const imagesURL = imgURL.concat(resultDownloadURL);
-
-    return imagesURL;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const imgURL = await handlePhoto();
-    updateDoc(doc(db, "items", state?.id), {
-      name: name,
-      price: price,
-      category: category,
-      description: description,
-      img_url: imgURL,
-      interested: false,
-      sold: false,
-      seller: user,
-    })
-      .then((data) => {
-        console.log(data);
-        navigate("/daftar-jual");
-        setIsLoading(false);
-        Toast.fire({
-          text: "Produk berhasil diterbitkan",
-          background: "#73CA5C",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-        Toast.fire({
-          text: "Terjadi suatu kesalahan, silahkan coba lagi",
-          background: "#FA2C5A",
-        });
-      });
   };
 
   return (
@@ -212,9 +84,7 @@ export default function EditInfoProduk() {
             {categories?.map((item) => (
               <Fragment key={item.id}>
                 {loadingCategories && (
-                  <option style={{ fontSize: "14px" }} value={item.category}>
-                    {item.category}
-                  </option>
+                  <option style={{ fontSize: "14px" }}>Loading...</option>
                 )}
 
                 <option style={{ fontSize: "14px" }} value={item.category}>
@@ -269,7 +139,7 @@ export default function EditInfoProduk() {
                   </div>
                 ) : (
                   <img
-                    src={isFile(item.file) ? item.preview : item.file}
+                    src={item.preview}
                     alt="Produk"
                     className="rounded-4"
                     style={{
@@ -279,7 +149,6 @@ export default function EditInfoProduk() {
                       objectFit: "cover",
                     }}
                     onClick={() => handleClick(index)}
-                    onLoad={() => URL.revokeObjectURL(item.preview)}
                   />
                 )}
 
@@ -326,19 +195,7 @@ export default function EditInfoProduk() {
               <Button
                 variant="outline-primary"
                 className="w-100"
-                onClick={() =>
-                  navigate("/edit-preview-produk", {
-                    state: {
-                      id: state?.id,
-                      name,
-                      price,
-                      category,
-                      description,
-                      img,
-                      seller: user,
-                    },
-                  })
-                }
+                onClick={() => navigate(`/edit-preview-produk/${id}`)}
                 disabled={
                   !name ||
                   !price ||

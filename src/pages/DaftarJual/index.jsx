@@ -17,18 +17,6 @@ export default function DaftarJual() {
   const _items = useFetchAllData("items");
   const { data: items, isLoading } = _items;
 
-  const images = (item) => {
-    const image = [];
-    item?.img_url?.map((item) => {
-      return image.push({
-        file: item,
-        preview: "is not file",
-      });
-    });
-
-    return image;
-  };
-
   const validateInterested = (value) =>
     value.every((item) => item.interested === false);
 
@@ -62,7 +50,7 @@ export default function DaftarJual() {
                     width="210px"
                     height="200px"
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate("/info-produk")}
+                    onClick={() => navigate("/info-produk/")}
                   />
                 </Col>
 
@@ -77,16 +65,7 @@ export default function DaftarJual() {
                     <CardItem
                       item={item}
                       handleClick={() =>
-                        navigate("/edit-info-produk", {
-                          state: {
-                            id: item?.id,
-                            name: item?.name,
-                            price: item?.price,
-                            category: item?.category,
-                            description: item?.description,
-                            img: images(item),
-                          },
-                        })
+                        navigate(`/edit-info-produk/${item.id}`)
                       }
                     />
                   </Col>

@@ -2,7 +2,9 @@ import React, { createContext, useState } from "react";
 import dataCurrentUser from "../global/dataCurrentUser";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Outlet, useNavigate } from "react-router-dom";
-import { storage } from "../config/firebase";
+import { db, storage } from "../config/firebase";
+import { addDoc, collection } from "firebase/firestore";
+import Toast from "../components/confirmToast";
 
 const Produk = () => {
   const [name, setName] = useState("");
@@ -10,6 +12,7 @@ const Produk = () => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [img, setImg] = useState([{ file: null, preview: null }]);
+  const [isLoading, setIsLoading] = useState(false);
   const _user = dataCurrentUser();
   const { data: user } = _user;
 
@@ -69,6 +72,38 @@ const Produk = () => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const imgURL = await handlePhoto();
+    addDoc(collection(db, "items"), {
+      name: name,
+      price: price,
+      category: category,
+      description: description,
+      img_url: imgURL,
+      interested: false,
+      sold: false,
+      seller: user,
+    })
+      .then(() => {
+        navigate("/daftar-jual");
+        setIsLoading(false);
+        Toast.fire({
+          text: "Produk berhasil diterbitkan",
+          background: "#73CA5C",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        Toast.fire({
+          text: "Terjadi suatu kesalahan, silahkan coba lagi",
+          background: "#FA2C5A",
+        });
+      });
+  };
+
   return {
     name,
     price,
@@ -76,6 +111,7 @@ const Produk = () => {
     description,
     img,
     seller: user,
+    isLoading,
     onName,
     onPrice,
     onCategory,
@@ -84,7 +120,7 @@ const Produk = () => {
     addPhoto,
     removePhoto,
     isEmpty,
-    handlePhoto,
+    handleSubmit,
     navigate,
   };
 };
