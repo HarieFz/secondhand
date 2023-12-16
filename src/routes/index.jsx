@@ -28,7 +28,7 @@ export default function SetupRouter() {
         </Route>
 
         <Route path="/" element={<PrivateUser />}>
-          <Route path="halaman-produk" element={<HalamanProduk />} />
+          <Route path="halaman-produk/:id" element={<HalamanProduk />} />
           <Route path="info-profile" element={<InfoProfile />} />
           <Route element={<ProdukProvider />}>
             <Route path="info-produk" element={<InfoProduk />} />

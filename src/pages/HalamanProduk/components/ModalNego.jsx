@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export default function ModalNego({ state }) {
+export default function ModalNego({ item }) {
   const [price, setPrice] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
@@ -54,7 +54,7 @@ export default function ModalNego({ state }) {
             style={{ background: "#EEEEEE" }}
           >
             <img
-              src={state.img_url[0]}
+              src={item?.img_url && item?.img_url[0]}
               alt="items"
               width="48px"
               height="48px"
@@ -62,8 +62,8 @@ export default function ModalNego({ state }) {
               style={{ objectFit: "cover" }}
             />
             <div>
-              <p className="m-0 fw-bold">{state.name}</p>
-              <p className="m-0">{state.price}</p>
+              <p className="m-0 fw-bold">{item?.name}</p>
+              <p className="m-0">{item?.price}</p>
             </div>
           </div>
 

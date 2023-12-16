@@ -19,7 +19,7 @@ export default function CardItem({ item, handleClick }) {
         style={{ height: "100px", objectFit: "cover" }}
       />
       <Card.Body className="px-0 py-1">
-        <p className="mb-1 fw-bold">{item.name}</p>
+        <p className="mb-1 fw-bold text-card-overflow">{item.name}</p>
         <p className="mb-2 fw-light text-black-50" style={{ fontSize: "12px" }}>
           {item.category}
         </p>

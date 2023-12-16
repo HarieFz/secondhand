@@ -119,21 +119,31 @@ export default function Home() {
                   <Card
                     className="p-2"
                     style={{ cursor: "pointer" }}
-                    onClick={() =>
-                      navigate("/halaman-produk", {
-                        state: item,
-                      })
-                    }
+                    onClick={() => navigate(`/halaman-produk/${item.id}`)}
                   >
-                    <Card.Img
-                      variant="top"
-                      src={item.img_url[0]}
-                      className="img-fluid rounded"
-                      alt="Foto Barang"
-                      style={{ height: "100px", objectFit: "cover" }}
-                    />
+                    <div style={{ position: "relative" }}>
+                      <img
+                        src={item.img_url[0]}
+                        className="rounded"
+                        alt="Foto Barang"
+                        style={{
+                          height: "100px",
+                          width: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                      {item?.sold && (
+                        <>
+                          <div className="transparency rounded rounded-circle"></div>
+                          <p className="text-in-transparency">Terjual</p>
+                        </>
+                      )}
+                    </div>
+
                     <Card.Body className="px-0">
-                      <p className="mb-1 fw-bold">{item.name}</p>
+                      <p className="mb-1 fw-bold text-card-overflow">
+                        {item.name}
+                      </p>
                       <p
                         className="mb-2 fw-light text-black-50"
                         style={{ fontSize: "12px" }}

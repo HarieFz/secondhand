@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AddProduct from "../../assets/img/add-product.png";
 import BoxProfile from "./components/BoxProfile";
 import CardItem from "./components/CardItem";
@@ -7,15 +7,25 @@ import Sidebar from "./components/Sidebar";
 import useFetchAllData from "../../hooks/query/useFetchAllData";
 import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import dataCurrentUser from "../../global/dataCurrentUser";
 
 export default function DaftarJual() {
   const navigate = useNavigate();
+  const [myItems, setMyItems] = useState([]);
   const [allProduct, setAllProduct] = useState(true);
   const [interested, setInterested] = useState(false);
   const [sold, setSold] = useState(false);
 
   const _items = useFetchAllData("items");
   const { data: items, isLoading } = _items;
+
+  const userCurrent = dataCurrentUser();
+  const { data: user } = userCurrent;
+
+  useEffect(() => {
+    const _myItems = items?.filter((item) => item?.seller?.id === user?.id);
+    setMyItems(_myItems);
+  }, [items, user]);
 
   const validateInterested = (value) =>
     value.every((item) => item.interested === false);
@@ -60,7 +70,7 @@ export default function DaftarJual() {
                   </Col>
                 )}
 
-                {items?.map((item, index) => (
+                {myItems?.map((item, index) => (
                   <Col lg={4} md={6} key={index}>
                     <CardItem
                       item={item}
@@ -77,7 +87,7 @@ export default function DaftarJual() {
           {interested && (
             <Col lg={9}>
               <Row className="gy-4">
-                {items?.map((item, index) => (
+                {myItems?.map((item, index) => (
                   <Fragment key={index}>
                     {isLoading && (
                       <Col lg={4} md={6}>
@@ -85,7 +95,7 @@ export default function DaftarJual() {
                       </Col>
                     )}
 
-                    {item.interested && (
+                    {item?.interested && (
                       <Col lg={4} md={6} key={index}>
                         <CardItem item={item} />
                       </Col>
@@ -93,7 +103,7 @@ export default function DaftarJual() {
                   </Fragment>
                 ))}
 
-                {validateInterested(items) && (
+                {validateInterested(myItems) && (
                   <Col lg={12} className="d-flex justify-content-center">
                     <img
                       src={Illustration}
@@ -108,7 +118,7 @@ export default function DaftarJual() {
           {sold && (
             <Col lg={9}>
               <Row className="gy-4">
-                {items?.map((item, index) => (
+                {myItems?.map((item, index) => (
                   <Fragment key={index}>
                     {isLoading && (
                       <Col lg={4} md={6}>
@@ -116,7 +126,7 @@ export default function DaftarJual() {
                       </Col>
                     )}
 
-                    {item.sold && (
+                    {item?.sold && (
                       <Col lg={4} md={6} key={index}>
                         <CardItem item={item} />
                       </Col>
@@ -124,7 +134,7 @@ export default function DaftarJual() {
                   </Fragment>
                 ))}
 
-                {validateSold(items) && (
+                {validateSold(myItems) && (
                   <Col lg={12} className="d-flex justify-content-center">
                     <img
                       src={Illustration}
